@@ -1,0 +1,162 @@
+kibot:
+  version: 1
+
+globals:
+  output: '%i.%x'
+  # Filters for KiBot warnings
+  filters:
+    - filter: Ignore PcbDraw missing components
+      number: 103
+    - filter: Ignore missing KiCad config, not in docker images
+      number: 8
+    - filter: Ignore missing KiCad 3D models, not in docker images
+      number: 10
+    - filter: Ignore missing KiCad config from KiAuto, not in docker images
+      number: 58
+      regex: kicad_common.json
+
+  restore_project: true
+  time_reformat: false
+
+preflight:
+  check_zone_fills: true
+  run_erc: false
+  run_drc: false
+
+
+outputs:
+  - name: 'bom_xlsx'
+    comment: "Spreadsheet for the Bill of Materials"
+    type: bom
+    dir: export/bom
+    options: &bom_options
+      xlsx:
+        datasheet_as_link: MFP
+        title: 'KiBot variants example'
+        max_col_width: 40
+        highlight_empty: false
+      columns:
+        - Row
+        - References
+        - Quantity Per PCB
+        - field: Value
+          join: ['voltage', 'current', 'power', 'tolerance']
+        - field: MFN
+          name: Manufacturer
+        - field: MFP
+          name: Manf. Part
+        - Footprint
+      normalize_values: true
+
+  - name: 'bom_html'
+    comment: "HTML for the Bill of Materials"
+    type: bom
+    dir: export/bom
+    options:
+      <<: *bom_options
+      format: HTML
+      html:
+        datasheet_as_link: MFP
+        title: 'KiBot variants example'
+        highlight_empty: false
+
+  - name: ibom
+    comment: 'Prototype mounting guide'
+    type: ibom
+    dir: export/bom
+    options:
+      layer_view: F
+
+  - name: 'print_sch'
+    comment: "Schematic PDF"
+    type: pdf_sch_print
+    dir: export/sch
+
+  - name: print_pdf
+    comment: "PDF for the PCB"
+    type: pcb_print
+    dir: export/pcb
+    options:
+      force_edge_cuts: true
+      keep_temporal_files: true
+      scaling: 1.0
+      pages:
+        - layers: [ F.Paste, F.Fab ]
+          sheet: 'Fabrication layers'
+        - layers: [ F.Cu, F.Silkscreen, Edge.Cuts ]
+          sheet: 'Top layer'
+        - layers: [ B.Cu, B.Silkscreen, Edge.Cuts ]
+          sheet: 'Bottom layer'
+          mirror: true
+
+
+  - name: board_top
+    comment: "Top layer view"
+    type: pcbdraw
+    dir: export/pcb
+    options:
+      format: png
+      dpi: 300
+
+  - name: board_top_filled
+    comment: "Top layer view with components"
+    type: pcbdraw
+    dir: export/pcb
+    output_id: '-filled'
+    options:
+      format: png
+      dpi: 300
+      show_components: all
+
+  - name: board_bottom
+    comment: "Bottom layer view"
+    type: pcbdraw
+    dir: export/pcb
+    options:
+      format: png
+      dpi: 300
+      bottom: true
+
+  - name: board_bottom_filled
+    comment: "Bottom layer view with components"
+    type: pcbdraw
+    dir: export/pcb
+    output_id: '-filled'
+    options:
+      format: png
+      dpi: 300
+      bottom: true
+      show_components: all
+      
+  - name: 3d_step
+    comment: "STEP 3D model"
+    type: step
+    dir: export/3d
+
+  - name: 3d_top_view
+    comment: "3D render from top"
+    type: render_3d
+    dir: export/3d
+    options:
+      zoom: 4
+      rotate_x: 3
+      rotate_z: 3
+      ray_tracing: true
+
+  - name: 3d_top_view_hq
+    comment: "3D render from top (High Quality)"
+    type: blender_export
+    dir: export/3d
+    options:
+      pcb3d:
+        output: '%i.%x'
+      render_options:
+        transparent_background: true
+        samples: 20
+      point_of_view:
+        rotate_x: 30
+        rotate_z: -20
+      outputs:
+        # - type: blender
+        type: render
+        output: '%i.%x'
