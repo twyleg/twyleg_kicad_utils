@@ -154,8 +154,9 @@ outputs:
         transparent_background: true
         samples: 20
       point_of_view:
-        rotate_x: 30
-        rotate_z: -20
+        rotate_x: 0
+        rotate_y: 45
+        rotate_z: 45
       outputs:
         # - type: blender
         type: render

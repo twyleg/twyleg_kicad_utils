@@ -1,0 +1,11 @@
+version: '3.8'
+
+
+services:
+  kibot:
+    build:
+        context: .
+        dockerfile: ./Dockerfile
+    working_dir: /root/project
+    volumes:
+      - ${PROJECT_DIR}:/root/project/:rw

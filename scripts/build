@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
+IMAGE=ghcr.io/inti-cmnb/kicad7_auto_full:latest
+USER_ID=$(id -u)
+GROUP_ID=$(id -g)
+
+if [ "$EUID" -eq 0 ]; then
+  echo "Please DON'T run as root"
+  exit
+fi
+
+
+
+sudo docker build --tag 'kibot' $SCRIPT_DIR/../docker/
+
+sudo docker run \
+    -v ./:/root/project/ \
+    -w /root/project \
+    kibot \
+    kibot -c /root/project/external/twyleg_kicad_utils/kibot/default.kibot.yaml
+
+sudo chown -R $USER_ID:$GROUP_ID export/ docs/ fp-info-cache
