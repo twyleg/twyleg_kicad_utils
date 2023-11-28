@@ -3,6 +3,13 @@
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 
+if [ -e $SCRIPT_DIR/~template_project_kicad.kicad_pcb.lck ] || [ -e $SCRIPT_DIR/~template_project_kicad.kicad_sch.lck ]; then
+    echo "KiCad seems to be running and the schematic or pcb is open. Please close both an run the script again!"
+    exit -1
+fi
+
+
+
 if [ $# -eq 0 ]; then
     echo "New projects name: "
     read NEW_PROJECT_NAME
@@ -13,12 +20,6 @@ fi
 
 echo Init project \"$NEW_PROJECT_NAME\
 
-
-# template_project_kicad.kicad_pcb
-# -rw------- 1 twyleg twyleg   52 28. Nov 02:11 '~template_project_kicad.kicad_pcb.lck'
-# -rw------- 1 twyleg twyleg 1.2K 27. Nov 22:12  template_project_kicad.kicad_prl
-# -rw------- 1 twyleg twyleg  12K 27. Nov 22:12  template_project_kicad.kicad_pro
-# -rw------- 1 twyleg twyleg  13K 28. Nov 02:06  template_project_kicad.kicad_sch
 
 set -x
 
