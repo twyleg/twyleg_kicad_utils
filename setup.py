@@ -30,6 +30,7 @@ setup(
     entry_points={
         "console_scripts": [
             "twyleg_kicad_utils = twyleg_kicad_utils.main:main",
+            "kicad_utils = twyleg_kicad_utils.main:main",
         ]
     },
 )
