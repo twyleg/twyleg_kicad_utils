@@ -1,19 +1,42 @@
 [![Build status](https://github.com/twyleg/twyleg_kicad_utils/actions/workflows/tests.yaml/badge.svg)]()
 [![GitHub latest commit](https://badgen.net/github/last-commit/twyleg/twyleg_kicad_utils)](https://GitHub.com/twyleg/twyleg_kicad_utils/commit/)
-[![PyPI download month](https://img.shields.io/pypi/dm/template-project-python)](https://pypi.python.org/pypi/template-project-python/)
-[![PyPi version](https://badgen.net/pypi/v/template-project-python/)](https://pypi.org/project/template-project-python)
-[![Documentation Status](https://readthedocs.org/projects/template-project-python/badge/?version=latest)](http://template-project-python.readthedocs.io/?badge=latest)
+[![PyPI download month](https://img.shields.io/pypi/dm/twyleg_kicad_utils)](https://pypi.python.org/pypi/twyleg_kicad_utils/)
+[![PyPi version](https://badgen.net/pypi/v/twyleg_kicad_utils/)](https://pypi.org/project/twyleg_kicad_utils)
 
 
 # twyleg_kicad_utils
 
-Ipsum Lorem
+Personal utilities to automate build process for KiCad projects.
 
-## Prerequisites
+## Install
 
-Add the following secrets for GitHub Actions:
+    python -m venv venv
+    source venv/bin/activate
+    pip install twyleg-kicad-utils
 
-* PYPI_API_TOKEN
+## Usage
+
+Use the help output for detailed information:
+
+    kicad_utils -h
+
+### init
+
+Init KiCad project.
+
+    kicad_utils init
+
+### submodules
+
+Manage submodules like listing modules, switching protocol (HTTPS/SSH) and upgrading submpdules.
+
+    kicad_utils submodules
+
+### build
+
+Build documentation and exports of KiCad project.
+
+    kicad_utils build
 
 ## Examples
 
