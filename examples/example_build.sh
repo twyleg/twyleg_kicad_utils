@@ -2,10 +2,7 @@
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-EXAMPLE_NAME=build_example
-$SCRIPT_DIR/setup_test_project.sh $EXAMPLE_NAME
-source venv/bin/activate
+source $SCRIPT_DIR/setup_example_project.sh build_example
 
-cd $SCRIPT_DIR/data/$EXAMPLE_NAME
-
+git submodule update --init
 kicad_utils build
