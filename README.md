@@ -38,6 +38,12 @@ Build documentation and exports of KiCad project.
 
     kicad_utils build
 
+### diff
+
+Show interactive git diff based on [kiri](https://github.com/leoheck/kiri).
+
+    kicad_utils diff
+
 ## Examples
 
 All examples can be found in the [examples/](https://github.com/twyleg/twyleg_kicad_utils/tree/master/examples) directory.

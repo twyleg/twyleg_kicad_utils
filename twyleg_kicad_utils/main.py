@@ -3,6 +3,8 @@ import sys
 import argparse
 import logging
 import subprocess
+import twyleg_kicad_utils.build
+import twyleg_kicad_utils.diff
 
 from pathlib import Path
 
@@ -29,20 +31,7 @@ def submodules_set_protocol(args: argparse.Namespace):
 
 
 def build(args: argparse.Namespace):
-    subprocess.run(
-        [
-            "podman",
-            "run",
-            "-v",
-            f"{args.working_dir}/:/root/project/",
-            "-w",
-            "/root/project",
-            "ghcr.io/inti-cmnb/kicad7_auto_full:latest",
-            "kibot",
-            "-c",
-            "/root/project/external/twyleg_kicad_utils/kibot/default.kibot.yaml",
-        ]
-    )
+    twyleg_kicad_utils.build.build_all(args.working_dir)
 
 
 def build_bom(args: argparse.Namespace):
@@ -59,6 +48,10 @@ def build_pdf(args: argparse.Namespace):
 
 def build_3d(args: argparse.Namespace):
     logging.error("Not yet implemented!")
+
+def diff(args: argparse.Namespace):
+    twyleg_kicad_utils.diff.diff(args.port, args.clean)
+
 
 
 def main():
@@ -128,6 +121,17 @@ def main():
     parser_build_3d = subparsers_build.add_parser("3d")
     parser_build_3d.set_defaults(func=build_3d)
 
+    #
+    # Subcommand: diff
+    #
+    parser_diff = subparsers.add_parser("diff", description="Git diff.")
+    parser_diff.add_argument('-c', '--clean', action='store_true', help="Clean files from previous run before running again.")
+    parser_diff.add_argument('-p', '--port', type=int, default=8000, help="Port to start kiri on.")
+    parser_diff.set_defaults(func=diff)
+
+    #
+    # Subcommands end
+    #
     args = parser.parse_args(sys.argv[1:])
 
     logging.info("twyleg_kicad_utils started!")
