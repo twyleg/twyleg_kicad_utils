@@ -41,7 +41,15 @@ outputs:
         - Quantity Per PCB
         - field: Value
           join: ['voltage', 'current', 'power', 'tolerance']
-        - field: MFN
+        - field: MFN  - name: board_top
+    comment: "Top layer view"
+    type: pcbdraw
+    dir: export/pcb
+    options:
+      format: png
+      dpi: 300
+
+
           name: Manufacturer
         - field: MFP
           name: Manf. Part

@@ -31,27 +31,11 @@ def submodules_set_protocol(args: argparse.Namespace):
 
 
 def build(args: argparse.Namespace):
-    twyleg_kicad_utils.build.build_all(args.working_dir)
+    twyleg_kicad_utils.build.build(args.working_dir, args.output_dir, args.targets)
 
-
-def build_bom(args: argparse.Namespace):
-    logging.error("Not yet implemented!")
-
-
-def build_images(args: argparse.Namespace):
-    logging.error("Not yet implemented!")
-
-
-def build_pdf(args: argparse.Namespace):
-    logging.error("Not yet implemented!")
-
-
-def build_3d(args: argparse.Namespace):
-    logging.error("Not yet implemented!")
 
 def diff(args: argparse.Namespace):
     twyleg_kicad_utils.diff.diff(args.port, args.clean)
-
 
 
 def main():
@@ -108,18 +92,8 @@ def main():
         default=Path.cwd() / "export",
     )
 
-    subparsers_build = parser_build.add_subparsers(required=False, title="subcommands")
-    parser_build_bom = subparsers_build.add_parser("bom")
-    parser_build_bom.set_defaults(func=build_bom)
-
-    parser_build_images = subparsers_build.add_parser("images")
-    parser_build_images.set_defaults(func=build_images)
-
-    parser_build_pdf = subparsers_build.add_parser("pdf")
-    parser_build_pdf.set_defaults(func=build_pdf)
-
-    parser_build_3d = subparsers_build.add_parser("3d")
-    parser_build_3d.set_defaults(func=build_3d)
+    parser_build.add_argument('targets', type=str, nargs='*',
+                        help='Targets to build')
 
     #
     # Subcommand: diff
