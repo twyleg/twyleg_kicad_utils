@@ -11,6 +11,6 @@ def build(working_dir: Path, output_dir: Path, targets: List[str]):
         f"podman run \
         -v {working_dir}/:/root/project/ \
         -w /root/project \
-        docker.io/twyleg/kicad_toolchain:latest \
+        ghcr.io/inti-cmnb/kicad7_auto_full:latest \
         kibot -d {output_dir} -c /root/project/external/twyleg_kicad_utils/kibot/default.kibot.yaml".split() + targets
     )
