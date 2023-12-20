@@ -67,9 +67,14 @@ outputs:
     options:
       layer_view: F
 
-  - name: 'print_sch'
+  - name: 'print_sch_pdf'
     comment: "Schematic PDF"
     type: pdf_sch_print
+    dir: export/sch
+  
+  - name: 'print_sch_svg'
+    comment: "Schematic SVG"
+    type: svg_sch_print
     dir: export/sch
 
   - name: print_pdf
