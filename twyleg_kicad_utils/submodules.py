@@ -1,6 +1,7 @@
 # Copyright (C) 2023 twyleg
 import fileinput
 import logging
+
 from pathlib import Path
 from enum import Enum
 

@@ -39,8 +39,6 @@ def diff(args: argparse.Namespace):
 
 
 def main():
-    logging.basicConfig(stream=sys.stdout, format=FORMAT, level=logging.INFO)
-
     #
     # Top-level parser
     #
@@ -51,6 +49,13 @@ def main():
         help="Show version and exit",
         action="version",
         version=__version__,
+    )
+
+    parser.add_argument(
+        "-vv",
+        "--verbose",
+        help="Run with verbose output.",
+        action='store_true',
     )
 
     parser.add_argument(
@@ -108,7 +113,12 @@ def main():
     #
     args = parser.parse_args(sys.argv[1:])
 
+    log_level = logging.DEBUG if args.verbose else logging.INFO
+    logging.basicConfig(stream=sys.stdout, format=FORMAT, level=log_level)
+
     logging.info("twyleg_kicad_utils started!")
+    logging.info("Log level: %s", logging.getLevelName(log_level))
+    logging.info("Arguments: %s", args)
     logging.info("Command: %s", args.func.__name__.replace("_", " -> "))
     logging.info("Working dir: %s", args.working_dir)
     args.func(args)

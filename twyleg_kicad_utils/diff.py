@@ -1,9 +1,11 @@
 # Copyright (C) 2023 twyleg
 import subprocess
 
+from twyleg_kicad_utils.process import run
+
 
 def diff(port: int, clean=False) -> None:
-    subprocess.run(
+    run(
         f"podman run -it \
         -v./:/root/project \
         -w /root/project \
