@@ -94,7 +94,7 @@ def main():
         "--output_dir",
         help=f"Use a specific output dir for the results. Default=./export",
         type=str,
-        default=Path.cwd() / "export",
+        default=Path.cwd() / "docs",
     )
 
     parser_build.add_argument('targets', type=str, nargs='*',
